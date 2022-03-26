@@ -17,7 +17,7 @@ const rootReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_TODO:
       const { title } = action.payload;
-      const ids = state.map((newTodo) => newTodo.id);
+      const ids = state.data.map((newTodo) => newTodo.id);
       const newId = Math.max(...ids) + 1;
       const todo = {
         id: newId,
@@ -25,11 +25,11 @@ const rootReducer = (state = initialState, action) => {
         complete: false,
       };
 
-      const addTodo = [...state, todo];
+      const addTodo = [...state.data, todo];
 
-      return addTodo;
+      return {data: addTodo};
     case COMPLETE_TODO:
-      const completeTodo = state.map((newTodo) => {
+      const completeTodo = state.data.map((newTodo) => {
         if (newTodo.id === action.payload) {
           return {
             id: newTodo.id,
@@ -41,9 +41,9 @@ const rootReducer = (state = initialState, action) => {
         return newTodo;
       });
 
-      return completeTodo;
+      return { data: completeTodo };
     case UNCOMPLETE_TODO:
-      const uncompleteTodo = state.map((newTodo) => {
+      const uncompleteTodo = state.data.map((newTodo) => {
         if (newTodo.id === action.payload) {
           return {
             id: newTodo.id,
@@ -51,16 +51,15 @@ const rootReducer = (state = initialState, action) => {
             complete: false,
           };
         }
-
         return newTodo;
       });
 
-      return uncompleteTodo;
+      return { data: uncompleteTodo };
     case DELETE_TODO:
-      const deleteTodo = state.filter(
+      const deleteTodo = state.data.filter(
         (newTodo) => newTodo.id !== action.payload
       );
-      return deleteTodo;
+      return { data: deleteTodo };
     default:
         return state;
   }
