@@ -17,10 +17,8 @@ const rootReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_TODO:
       const { title } = action.payload;
-      const ids = state.data.map((newTodo) => newTodo.id);
-      const newId = Math.max(...ids) + 1;
       const todo = {
-        id: newId,
+        id: Math.max(0, Math.max(...state.data.map((newTodo) => newTodo.id))) + 1,
         title,
         complete: false,
       };
